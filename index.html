@@ -30,7 +30,10 @@
       document.getElementById("result").innerText = `Код: ${decodedText}`;
       scanner.clear();
       tg.sendData(decodedText); // Отправляем результат в бота
-      tg.close(); // Закрываем WebApp
+      setTimeout(() => {
+        Telegram.WebApp.close();
+      }, 300);
+      // tg.close(); // Закрываем WebApp
     }
 
     // Ошибка
