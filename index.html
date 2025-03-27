@@ -28,14 +28,9 @@
     // Успешное сканирование
     function onScanSuccess(decodedText) {
       document.getElementById("result").innerText = `Код: ${decodedText}`;
-      Telegram.WebApp.sendData("TEST_123");
-      tg.sendData("22");
       scanner.clear();
       tg.sendData(decodedText); // Отправляем результат в бота
-      setTimeout(() => {
-        Telegram.WebApp.close();
-      }, 300);
-      // tg.close(); // Закрываем WebApp
+      tg.close(); // Закрываем WebApp
     }
 
     // Ошибка
