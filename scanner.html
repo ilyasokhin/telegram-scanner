@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Сканер DataMatrix</title>
+  <script src="https://unpkg.com/html5-qrcode"></script>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+    #reader { width: 100%; max-width: 400px; margin: 20px auto; }
+    #result { margin-top: 20px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h2>Сканер DataMatrix</h2>
+  <div id="reader"></div>
+  <p id="result">Наведите камеру на код...</p>
+
+  <script>
+    const tg = window.Telegram.WebApp;
+    const scanner = new Html5QrcodeScanner("reader", {
+      qrbox: 250,
+      fps: 10,
+      formatsToSupport: [Html5QrcodeSupportedFormats.DATA_MATRIX]
+    });
+
+    // Успешное сканирование
+    function onScanSuccess(decodedText) {
+      document.getElementById("result").innerText = `Код: ${decodedText}`;
+      scanner.clear();
+      tg.sendData(decodedText); // Отправляем результат в бота
+      tg.close(); // Закрываем WebApp
+    }
+
+    // Ошибка
+    function onScanError(error) {
+      console.error("Ошибка:", error);
+    }
+
+    // Запускаем сканер
+    scanner.render(onScanSuccess, onScanError);
+  </script>
+</body>
+</html>
